@@ -20,7 +20,7 @@
 /* CORE basic functions for BIG type */
 /* SU=m, SU is Stack Usage */
 
-#include "big_XXX.h"
+#include "big.h"
 
 //int XXX::BIGMULS=0;
 //int XXX::BIGSQRS=0;
@@ -594,7 +594,7 @@ void XXX::BIG_mul(DBIG c, BIG a, BIG b)
 
 #ifdef USE_KARATSUBA
 
-    INLINE_MUL2
+    // INLINE_MUL2
 
 #else
 
@@ -696,7 +696,7 @@ void XXX::BIG_sqr(DBIG c, BIG a)
 
 #ifdef UNWOUND
 
-    INLINE_SQR
+    // INLINE_SQR
 
 #else
 
@@ -801,7 +801,7 @@ void XXX::BIG_monty(BIG a, BIG md, chunk MC, DBIG d)
 
 #ifdef USE_KARATSUBA
 
-    INLINE_REDC2
+    // INLINE_REDC2
 
 #else
 

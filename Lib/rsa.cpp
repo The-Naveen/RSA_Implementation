@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "rsa_WWW.h"
+#include "rsa.h"
 
 using namespace XXX;
 

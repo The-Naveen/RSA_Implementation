@@ -19,7 +19,7 @@
 
 /* CORE basic functions for Large Finite Field support */
 
-#include "ff_WWW.h"
+#include "ff.h"
 
 using namespace XXX;
 
