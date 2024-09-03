@@ -20,8 +20,8 @@
 #ifndef FF_WWW_H
 #define FF_WWW_H
 
-#include "big.h"
-#include "config_ff.h"
+#include "big_XXX.h"
+#include "config_ff_WWW.h"
 
 using namespace core;
 

@@ -34,7 +34,7 @@
 #include <inttypes.h>
 #include "arch.h"
 #include "core.h"
-#include "config_big.h"
+#include "config_big_XXX.h"
 
 using namespace core;
 

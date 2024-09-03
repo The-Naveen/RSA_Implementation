@@ -24,8 +24,8 @@
 
 // BIG stuff
 
-#define MODBYTES_XXX 128    // @NB@
-#define BASEBITS_XXX 60     //@BASE@
+#define MODBYTES_XXX @NB@
+#define BASEBITS_XXX @BASE@
 
 
 #endif
