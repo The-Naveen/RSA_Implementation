@@ -3,10 +3,10 @@ using namespace std;
 using namespace WWW;
 
 #include "Lib/rsa.h"
-#include "Lib/randapi.h" 
-// #include "Lib/hash.h"
+#include "Lib/randapi.h"
 
-int main() {
+int main()
+{
 
     unsigned long ran;
     char raw[100];
@@ -49,21 +49,31 @@ int main() {
     rsa_public_key pub;
     sign32 e = 65537;
 
-
     WWW::RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
 
     char message[] = "Hello, RSA!";
     // cin << message;
-    octet plaintext = {0, sizeof(message), (char *)message};
+    octet plaintext = {0, sizeof(message) - 1, (char *)message};
     octet ciphertext;
-    ciphertext.len = RFS_WWW; 
+    ciphertext.len = RFS_WWW;
     ciphertext.val = (char *)malloc(RFS_WWW);
 
     octet chipertexthash;
-    chipertexthash.len = RFS_WWW;
-    chipertexthash.val = (char *)malloc(RFS_WWW);
+    chipertexthash.len = 32;
+    chipertexthash.val = (char *)malloc(32);
 
     hash256 hashe;
+
+
+    core::HASH256_init(&hashe);
+    for (int i = 0; i < plaintext.len; i++)
+    {
+        core::HASH256_process(&hashe, plaintext.val[i]);
+    }
+    core::HASH256_hash(&hashe, chipertexthash.val);
+
+    cout << "Hashed Value: " << chipertexthash.val;
+
 
     RSA_ENCRYPT(&pub, &plaintext, &ciphertext);
 
@@ -78,6 +88,7 @@ int main() {
     RSA_PRIVATE_KEY_KILL(&priv);
     free(ciphertext.val);
     free(decrypted.val);
+    free(chipertexthash.val);
 
     return 0;
 }
