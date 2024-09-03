@@ -1,13 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
-using namespace RSA2048;
 
 #include "Lib/rsa_RSA2048.h"
 #include "Lib/randapi.h"
 
 int main()
 {
-
     unsigned long ran;
     char raw[100];
     octet RAW = {0, sizeof(raw), raw};
@@ -29,14 +27,13 @@ int main()
 
     core::CREATE_CSPRNG(&rng, &RAW);
 
-    rsa_private_key priv;
-    rsa_public_key pub;
+    RSA2048::rsa_private_key priv;
+    RSA2048::rsa_public_key pub;
     sign32 e = 65537;
 
-    RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
+    RSA2048::RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
 
     char message[] = "Hello, RSA!";
-    // cin << message;
     octet plaintext = {0, sizeof(message) - 1, (char *)message};
     octet ciphertext;
     ciphertext.len = RFS_RSA2048;
@@ -55,19 +52,21 @@ int main()
     }
     core::HASH256_hash(&hashe, chipertexthash.val);
 
-    cout << "Hashed Value: " << chipertexthash.val;
+    cout << "Hashed Value: ";
+    OCT_output(&chipertexthash);
+    cout<<endl;
 
-    RSA_ENCRYPT(&pub, &plaintext, &ciphertext);
+    RSA2048::RSA_ENCRYPT(&pub, &plaintext, &ciphertext);
 
     octet decrypted;
     decrypted.len = RFS_RSA2048;
     decrypted.val = (char *)malloc(RFS_RSA2048);
 
-    RSA_DECRYPT(&priv, &ciphertext, &decrypted);
+    RSA2048::RSA_DECRYPT(&priv, &ciphertext, &decrypted);
 
     printf("Decrypted message: %s\n", decrypted.val);
 
-    RSA_PRIVATE_KEY_KILL(&priv);
+    RSA2048::RSA_PRIVATE_KEY_KILL(&priv);
     free(ciphertext.val);
     free(decrypted.val);
     free(chipertexthash.val);
