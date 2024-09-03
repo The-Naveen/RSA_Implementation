@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
-using namespace WWW;
+using namespace RSA2048;
 
-#include "Lib/rsa.h"
+#include "Lib/rsa_RSA2048.h"
 #include "Lib/randapi.h"
 
 int main()
@@ -13,57 +13,40 @@ int main()
     octet RAW = {0, sizeof(raw), raw};
     csprng rng;
 
-    // Improve seed generation by combining time and random_device
     std::random_device rd;
     ran = static_cast<unsigned long>(time(nullptr)) ^ rd();
 
-    // Populate RAW with random data
     RAW.len = 100;
     RAW.val[0] = ran;
     RAW.val[1] = ran >> 8;
     RAW.val[2] = ran >> 16;
     RAW.val[3] = ran >> 24;
 
-    // Fill the rest of RAW with high-entropy data
     for (int i = 4; i < 100; i++)
     {
-        RAW.val[i] = rd() & 0xFF; // Use random_device to fill the remaining bytes
+        RAW.val[i] = rd() & 0xFF;
     }
 
-    // Initialize CSPRNG
     core::CREATE_CSPRNG(&rng, &RAW);
-
-    // Use try-catch to handle potential exceptions
-    // try
-    // {
-    //     Key key(&RNG);
-    // }
-    // catch (const std::exception &e)
-    // {
-    //     std::cerr << "Error: " << e.what() << std::endl;
-    //     core::KILL_CSPRNG(&RNG);
-    //     return -1;
-    // }
 
     rsa_private_key priv;
     rsa_public_key pub;
     sign32 e = 65537;
 
-    WWW::RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
+    RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
 
     char message[] = "Hello, RSA!";
     // cin << message;
     octet plaintext = {0, sizeof(message) - 1, (char *)message};
     octet ciphertext;
-    ciphertext.len = RFS_WWW;
-    ciphertext.val = (char *)malloc(RFS_WWW);
+    ciphertext.len = RFS_RSA2048;
+    ciphertext.val = (char *)malloc(RFS_RSA2048);
 
     octet chipertexthash;
     chipertexthash.len = 32;
     chipertexthash.val = (char *)malloc(32);
 
     hash256 hashe;
-
 
     core::HASH256_init(&hashe);
     for (int i = 0; i < plaintext.len; i++)
@@ -74,12 +57,11 @@ int main()
 
     cout << "Hashed Value: " << chipertexthash.val;
 
-
     RSA_ENCRYPT(&pub, &plaintext, &ciphertext);
 
     octet decrypted;
-    decrypted.len = RFS_WWW;
-    decrypted.val = (char *)malloc(RFS_WWW);
+    decrypted.len = RFS_RSA2048;
+    decrypted.val = (char *)malloc(RFS_RSA2048);
 
     RSA_DECRYPT(&priv, &ciphertext, &decrypted);
 
