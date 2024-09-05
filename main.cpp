@@ -34,6 +34,7 @@ int main()
     RSA2048::RSA_KEY_PAIR(&rng, e, &priv, &pub, nullptr, nullptr);
 
     char message[] = "Hello, RSA!";
+    //TODO need to take input in place of message
     octet plaintext = {0, sizeof(message) - 1, (char *)message};
     octet ciphertext;
     ciphertext.len = RFS_RSA2048;
@@ -56,7 +57,7 @@ int main()
     OCT_output(&chipertexthash);
     cout<<endl;
 
-    RSA2048::RSA_ENCRYPT(&pub, &plaintext, &ciphertext);
+    RSA2048::RSA_ENCRYPT(&pub, &plaintext, &ciphertext); // correct till here
 
     octet decrypted;
     decrypted.len = RFS_RSA2048;
