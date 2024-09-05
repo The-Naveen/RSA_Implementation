@@ -40,9 +40,7 @@ int main()
     ciphertext.len = RFS_RSA2048;
     ciphertext.val = (char *)malloc(RFS_RSA2048);
 
-    octet chipertexthash;
-    chipertexthash.len = 32;
-    chipertexthash.val = (char *)malloc(32);
+    
 
     hash256 hashe;
 
@@ -51,10 +49,10 @@ int main()
     {
         core::HASH256_process(&hashe, plaintext.val[i]);
     }
-    core::HASH256_hash(&hashe, chipertexthash.val);
+    core::HASH256_hash(&hashe, ciphertext.val);
 
     cout << "Hashed Value: ";
-    OCT_output(&chipertexthash);
+    OCT_output(&ciphertext);
     cout<<endl;
 
     RSA2048::RSA_ENCRYPT(&pub, &plaintext, &ciphertext); // correct till here
@@ -65,12 +63,14 @@ int main()
 
     RSA2048::RSA_DECRYPT(&priv, &ciphertext, &decrypted);
 
-    printf("Decrypted message: %s\n", decrypted.val);
+    cout << "Decrypted Value: ";
+    OCT_output(&decrypted);
+    cout<<endl;
 
     RSA2048::RSA_PRIVATE_KEY_KILL(&priv);
     free(ciphertext.val);
     free(decrypted.val);
-    free(chipertexthash.val);
+    free(ciphertext.val);
 
     return 0;
 }
